@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turbo Sessions 2026 | Official</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,700;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #050505;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* --- COLORES & VARIABLES --- */
+        :root {
+            --turbo-red: #ff003c;
+            --turbo-glow: rgba(255, 0, 60, 0.6);
+        }
+
+        /* --- FUENTES & EFECTOS --- */
+        .font-heavy { font-weight: 900; letter-spacing: -0.05em; }
+        
+        /* --- ANIMACIONES --- */
+        @keyframes fadeInMoveUp {
+            0% { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slowZoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        .animate-enter { animation: fadeInMoveUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.3s; }
+        .delay-300 { animation-delay: 0.5s; }
+        .delay-500 { animation-delay: 0.7s; }
+
+        .animate-zoom { animation: slowZoom 20s alternate infinite ease-in-out; }
+
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .animate-marquee { display: flex; width: max-content; animation: marquee 25s linear infinite; }
+
+        /* --- COMPONENTES UI --- */
+        .btn-primary {
+            background-color: var(--turbo-red);
+            color: white;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-style: italic;
+            padding: 1rem 3rem;
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px -10px var(--turbo-glow);
+            letter-spacing: 0.05em;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-primary:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 50px -10px var(--turbo-glow);
+            filter: brightness(1.2);
+        }
+
+        .btn-text {
+            color: white;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-style: italic;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 2px;
+        }
+        .btn-text:hover {
+            color: var(--turbo-red);
+            border-color: var(--turbo-red);
+            padding-right: 10px;
+        }
+
+        .badge-event {
+            background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(255, 0, 60, 0.2) 50%, rgba(0,0,0,0) 100%);
+            border-top: 1px solid rgba(255, 0, 60, 0.5);
+            border-bottom: 1px solid rgba(255, 0, 60, 0.5);
+            color: #ff4d79;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            padding: 0.5rem 2rem;
+            backdrop-filter: blur(5px);
+        }
+
+        .logo-hero {
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.3));
+            transition: transform 0.5s ease;
+        }
+        .logo-hero:hover {
+            transform: scale(1.02);
+            filter: drop-shadow(0 0 30px rgba(255,255,255,0.5));
+        }
+
+        #main-nav {
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 20px;
+            color: #666;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-style: italic;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            color: white;
+            border-color: var(--turbo-red);
+            background: rgba(255,0,60,0.1);
+            box-shadow: 0 0 15px rgba(255,0,60,0.2);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-red-600 selection:text-white">
+
+    <!-- NAVBAR -->
+    <nav class="fixed w-full z-50 h-24 flex items-center transition-all duration-300" id="main-nav">
+        <div class="max-w-7xl w-full mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-1 cursor-pointer group" onclick="switchView('home')">
+                <img src="LOGO_SOMBRA_ILU_PEQIEÑO.png" 
+                     alt="Turbo Sessions Logo" 
+                     class="h-8 w-auto object-contain transition-transform group-hover:scale-105 filter brightness-0 invert">
+            </div>
+
+            <div class="hidden md:flex items-center gap-10">
+                <button onclick="switchView('home')" class="text-sm font-bold uppercase tracking-widest text-gray-400 hover:text-white transition-colors">Inicio</button>
+                <button onclick="switchView('evento')" class="text-sm font-bold uppercase tracking-widest text-gray-400 hover:text-white transition-colors">Eventos</button>
+                <button onclick="switchView('entradas')" class="text-sm font-bold uppercase tracking-widest text-gray-400 hover:text-white transition-colors">Tienda</button>
+                <button onclick="switchView('inscripciones')" class="text-sm font-bold uppercase tracking-widest text-red-500 hover:text-red-400 transition-colors">Inscripciones</button>
+                <button onclick="switchView('media')" class="text-sm font-bold uppercase tracking-widest text-gray-400 hover:text-white transition-colors">Media</button>
+            </div>
+
+            <button class="md:hidden text-white hover:text-red-500 transition-colors" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                <i data-lucide="menu" class="w-8 h-8"></i>
+            </button>
+        </div>
+        
+        <div id="mobile-menu" class="hidden absolute top-24 left-0 w-full bg-black border-t border-white/10 p-6 flex flex-col gap-6 md:hidden shadow-2xl">
+            <button onclick="switchView('home')" class="text-left font-heavy italic uppercase text-2xl text-white">Inicio</button>
+            <button onclick="switchView('evento')" class="text-left font-heavy italic uppercase text-2xl text-white">Eventos</button>
+            <button onclick="switchView('entradas')" class="text-left font-heavy italic uppercase text-2xl text-white">Tienda</button>
+            <button onclick="switchView('inscripciones')" class="text-left font-heavy italic uppercase text-2xl text-red-500">Inscripciones</button>
+        </div>
+    </nav>
+
+    <!-- 1. HOME VIEW -->
+    <main id="home-view" class="view-section active block pt-0">
+        <div class="relative h-screen w-full overflow-hidden flex items-center justify-center">
+            
+            <div class="absolute inset-0 bg-black">
+                <div class="absolute inset-0 bg-gradient-to-b from-black/90 via-transparent to-black/90 z-10 pointer-events-none"></div>
+                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 mix-blend-overlay z-10 pointer-events-none"></div>
+
+                <!-- IMPORTANTE: He puesto un vídeo que funciona online para asegurar que se mueva -->
+                <video id="hero-bg-video" autoplay muted loop playsinline class="w-full h-full object-cover opacity-60 animate-zoom transform scale-105">
+                    <source src="https://videos.pexels.com/video-files/3205739/3205739-uhd_2560_1440_25fps.mp4" type="video/mp4">
+                </video>
+            </div>
+            
+            <div class="relative z-20 text-center px-4 w-full flex flex-col items-center justify-center h-full max-w-7xl mx-auto">
+                
+                <div class="animate-enter">
+                    <div class="badge-event mb-8">
+                        Next Stop: Ávila 2026
+                    </div>
+                </div>
+                
+                <div class="animate-enter delay-200 mb-8 w-full flex justify-center">
+                    <img src="LOGO_SOMBRA_ILU_PEQIEÑO.png" 
+                         alt="Turbo Sessions Main Logo" 
+                         class="logo-hero w-full max-w-xl md:max-w-1xl h-auto object-contain filter brightness-0 invert">
+                </div>
+                
+                <!-- CONTADOR CON SEGUNDOS PARA EFECTO "VIVO" -->
+                <div class="animate-enter delay-300 flex justify-center items-center gap-4 md:gap-12 font-mono mb-12">
+                    <div class="text-center">
+                        <span class="block text-4xl md:text-7xl font-black text-red-600 drop-shadow-[0_0_10px_rgba(255,0,60,0.5)]" id="days">00</span>
+                        <span class="text-[10px] md:text-xs font-bold uppercase text-gray-400 tracking-[0.3em] mt-2 block">Días</span>
+                    </div>
+                    <div class="text-2xl text-gray-600 font-light pt-2">:</div>
+                    <div class="text-center">
+                        <span class="block text-4xl md:text-7xl font-black text-red-600 drop-shadow-[0_0_10px_rgba(255,0,60,0.5)]" id="hours">00</span>
+                        <span class="text-[10px] md:text-xs font-bold uppercase text-gray-400 tracking-[0.3em] mt-2 block">Horas</span>
+                    </div>
+                    <div class="text-2xl text-gray-600 font-light pt-2">:</div>
+                    <div class="text-center">
+                        <span class="block text-4xl md:text-7xl font-black text-red-600 drop-shadow-[0_0_10px_rgba(255,0,60,0.5)]" id="mins">00</span>
+                        <span class="text-[10px] md:text-xs font-bold uppercase text-gray-400 tracking-[0.3em] mt-2 block">Min</span>
+                    </div>
+                    <div class="text-2xl text-gray-600 font-light pt-2">:</div>
+                    <div class="text-center">
+                        <span class="block text-4xl md:text-7xl font-black text-red-600 drop-shadow-[0_0_10px_rgba(255,0,60,0.5)]" id="secs">00</span>
+                        <span class="text-[10px] md:text-xs font-bold uppercase text-gray-400 tracking-[0.3em] mt-2 block">Seg</span>
+                    </div>
+                </div>
+
+                <div class="animate-enter delay-500 flex flex-col md:flex-row gap-8 items-center">
+                    <button onclick="switchView('entradas')" class="btn-primary">
+                        <span>Comprar Entradas</span>
+                        <i data-lucide="ticket" class="w-5 h-5"></i>
+                    </button>
+                    
+                    <button onclick="switchView('inscripciones')" class="btn-text group flex items-center gap-2">
+                        Inscribir Proyecto <i data-lucide="arrow-right" class="group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </div>
+                
+                <div class="absolute bottom-8 animate-bounce text-gray-500 hover:text-white transition-colors cursor-pointer" onclick="document.getElementById('news-section').scrollIntoView({behavior:'smooth'})">
+                    <i data-lucide="chevron-down" class="w-10 h-10"></i>
+                </div>
+            </div>
+        </div>
+
+        <section id="news-section" class="py-24 bg-zinc-950 border-t border-white/5 relative z-10">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex items-end justify-between mb-16 reveal">
+                    <h2 class="text-4xl md:text-6xl font-black italic uppercase text-white tracking-tighter">
+                        Últimas <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-400">Novedades</span>
+                    </h2>
+                    <div class="h-1 w-32 bg-red-600 hidden md:block"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="group relative h-[500px] md:col-span-2 overflow-hidden border border-white/10 cursor-pointer reveal delay-100" onclick="switchView('evento')">
+                        <img src="scirocco_porsche.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 filter grayscale group-hover:grayscale-0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
+                        <div class="absolute bottom-0 left-0 p-8 w-full">
+                            <span class="bg-red-600 text-white text-xs font-black px-3 py-1 uppercase tracking-widest mb-3 inline-block">Evento Principal</span>
+                            <h3 class="text-4xl font-black italic uppercase text-white mb-2 leading-none">Expo Ávila 2026</h3>
+                            <p class="text-gray-400 font-medium max-w-lg">Reserva tu plaza para el mayor evento del año. Expo y show en el mismo lugar.</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative h-[500px] overflow-hidden border border-white/10 cursor-pointer reveal delay-200" onclick="switchView('entradas')">
+                        <img src="https://images.unsplash.com/photo-1622612251433-28c9b90c9b63?q=80&w=800&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 filter brightness-75 group-hover:brightness-100">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors"></div>
+                        <div class="absolute bottom-0 left-0 p-8 w-full">
+                            <h3 class="text-3xl font-black italic uppercase text-white mb-1">Tienda<br>Oficial</h3>
+                            <p class="text-red-500 font-bold uppercase text-sm tracking-widest">New Collection</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 2. EVENTO VIEW -->
+    <main id="evento-view" class="view-section hidden pt-24 min-h-screen">
+        <div class="max-w-7xl mx-auto px-6">
+            <h1 class="text-6xl font-black italic uppercase mb-12 text-white reveal">El Evento</h1>
+            <div class="grid md:grid-cols-2 gap-12 text-gray-300 reveal delay-100">
+                <p class="text-lg leading-relaxed">Turbo Sessions 2026 redefine la experiencia en pista. Un fin de semana completo dedicado a la cultura automovilística.</p>
+                <ul class="space-y-6 mt-8">
+                    <li class="flex items-start gap-4"><span class="text-red-600 font-heavy text-4xl italic">01.</span><div><h3 class="font-bold text-2xl uppercase italic mb-1 text-white">Track & Drift</h3><p class="text-sm text-gray-400">12 horas de pista abierta.</p></div></li>
+                    <li class="flex items-start gap-4"><span class="text-red-600 font-heavy text-4xl italic">02.</span><div><h3 class="font-bold text-2xl uppercase italic mb-1 text-white">Show & Shine</h3><p class="text-sm text-gray-400">Top 150 proyectos seleccionados.</p></div></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <!-- 3. INSCRIPCIONES VIEW -->
+    <main id="inscripciones-view" class="view-section hidden pt-24 min-h-screen bg-black relative">
+        <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+            <div class="absolute top-0 right-0 w-1/2 h-1/2 bg-red-900/10 blur-[100px] rounded-full"></div>
+            <div class="absolute bottom-0 left-0 w-1/2 h-1/2 bg-blue-900/10 blur-[100px] rounded-full"></div>
+        </div>
+        <div class="max-w-5xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-16 reveal">
+                <span class="text-red-500 font-bold tracking-[0.3em] text-xs uppercase mb-4 block">Selection Process Open</span>
+                <h1 class="text-5xl md:text-7xl font-heavy italic uppercase mb-6 text-white drop-shadow-2xl">Paddock <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-400">Application</span></h1>
+            </div>
+            
+            <form class="space-y-8 reveal delay-200">
+                <div class="bg-zinc-900/80 border border-white/10 p-8 md:p-10 backdrop-blur-md relative group hover:border-red-600/30 transition-colors">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-red-600 transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300"></div>
+                    <h3 class="text-2xl font-heavy italic text-white mb-8 flex items-center gap-3"><i data-lucide="user" class="text-red-600"></i> Driver Data</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-2"><label class="text-xs font-bold uppercase text-gray-500 tracking-widest ml-1">Nombre Completo</label><input type="text" class="w-full bg-black border border-zinc-700 p-4 text-white font-bold focus:border-red-600 outline-none transition-all placeholder:text-zinc-800" placeholder="EJ: CARLOS SAINZ"></div>
+                        <div class="space-y-2"><label class="text-xs font-bold uppercase text-gray-500 tracking-widest ml-1">Email</label><input type="email" class="w-full bg-black border border-zinc-700 p-4 text-white font-bold focus:border-red-600 outline-none transition-all placeholder:text-zinc-800" placeholder="CONTACTO@MAIL.COM"></div>
+                    </div>
+                </div>
+
+                <div class="bg-zinc-900/80 border border-white/10 p-8 md:p-10 backdrop-blur-md relative group hover:border-red-600/30 transition-colors">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-red-600 transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300 delay-75"></div>
+                    <h3 class="text-2xl font-heavy italic text-white mb-8 flex items-center gap-3"><i data-lucide="car" class="text-red-600"></i> The Build</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="space-y-2"><label class="text-xs font-bold uppercase text-gray-500 tracking-widest ml-1">Marca</label><input type="text" class="w-full bg-black border border-zinc-700 p-4 text-white font-bold focus:border-red-600 outline-none transition-all placeholder:text-zinc-800" placeholder="EJ: BMW"></div>
+                        <div class="space-y-2"><label class="text-xs font-bold uppercase text-gray-500 tracking-widest ml-1">Modelo</label><input type="text" class="w-full bg-black border border-zinc-700 p-4 text-white font-bold focus:border-red-600 outline-none transition-all placeholder:text-zinc-800" placeholder="EJ: M3 E30"></div>
+                        <div class="space-y-2"><label class="text-xs font-bold uppercase text-gray-500 tracking-widest ml-1">Matrícula</label><input type="text" class="w-full bg-black border border-zinc-700 p-4 text-white font-bold focus:border-red-600 outline-none transition-all placeholder:text-zinc-800" placeholder="XXX-000"></div>
+                    </div>
+                </div>
+                
+                <div class="bg-zinc-900/80 border border-white/10 p-8 md:p-10 backdrop-blur-md relative group hover:border-red-600/30 transition-colors">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-red-600 transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300 delay-150"></div>
+                    <h3 class="text-2xl font-heavy italic text-white mb-8 flex items-center gap-3"><i data-lucide="image" class="text-red-600"></i> Gallery Check</h3>
+                    <div class="border-2 border-dashed border-zinc-700 hover:border-red-600 hover:bg-red-600/5 p-16 text-center transition-all cursor-pointer group/drop relative overflow-hidden">
+                        <div class="relative z-10 flex flex-col items-center">
+                            <i data-lucide="upload-cloud" class="w-8 h-8 text-gray-400 group-hover/drop:text-red-500 transition-colors mb-4"></i>
+                            <h3 class="font-bold text-xl uppercase italic text-gray-300 group-hover/drop:text-white mb-2">Drop your photos here</h3>
+                            <p class="text-xs text-gray-500 font-bold uppercase tracking-wide">Max 5MB per file • JPG/PNG</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end pt-8"><button type="button" class="w-full md:w-auto btn-primary text-xl py-6 px-12">Enviar Solicitud <i data-lucide="send" class="ml-2 w-6 h-6"></i></button></div>
+            </form>
+        </div>
+    </main>
+
+    <!-- 4. TIENDA VIEW -->
+    <main id="entradas-view" class="view-section hidden pt-24 min-h-screen bg-zinc-950">
+        <div class="max-w-7xl mx-auto px-6 pb-24">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-20 border-b border-white/10 pb-8 reveal">
+                <div><span class="text-red-500 font-bold tracking-[0.2em] text-xs uppercase mb-2 block">Official Store</span><h1 class="text-6xl md:text-8xl font-heavy italic uppercase leading-none text-white">Tickets <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-white">&</span><br>Merch</h1></div>
+            </div>
+            
+            <div class="mb-24">
+                <h2 class="text-2xl font-heavy italic uppercase text-gray-500 mb-8 flex items-center gap-4"><span class="w-8 h-[2px] bg-red-600"></span> Event Access</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-zinc-900 border border-white/5 hover:border-white/20 p-8 relative overflow-hidden group transition-all hover:-translate-y-2 flex flex-col">
+                        <div class="relative z-10"><h3 class="text-3xl font-heavy italic uppercase text-white mb-2">General<br>Pass</h3><p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-6">Acceso Sábado</p><div class="flex items-baseline gap-1 mb-8"><span class="text-5xl font-heavy text-white">15</span><span class="text-2xl font-bold text-red-500">€</span></div></div>
+                        <button class="mt-auto w-full border border-white/20 py-4 font-heavy italic uppercase text-sm hover:bg-white hover:text-black transition-colors">Añadir</button>
+                    </div>
+                    <div class="bg-black border-2 border-red-600 p-8 relative overflow-hidden group transform md:-translate-y-4 shadow-[0_0_40px_rgba(220,38,38,0.2)] flex flex-col">
+                        <div class="absolute top-0 right-0 bg-red-600 text-white text-[10px] font-black px-3 py-1 uppercase italic tracking-widest">Best Seller</div>
+                        <div class="relative z-10"><h3 class="text-3xl font-heavy italic uppercase text-red-500 mb-2">Full<br>Weekend</h3><p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">Sábado & Domingo</p><div class="flex items-baseline gap-1 mb-8"><span class="text-6xl font-heavy text-white">25</span><span class="text-3xl font-bold text-red-500">€</span></div></div>
+                        <button class="mt-auto w-full bg-red-600 py-4 font-heavy italic uppercase text-sm hover:bg-red-700 transition-colors text-white">Comprar Ahora</button>
+                    </div>
+                    <div class="bg-zinc-900 border border-white/5 hover:border-yellow-500 transition-colors group relative overflow-hidden hover:-translate-y-2 flex flex-col">
+                        <div class="relative z-10"><h3 class="text-3xl font-heavy italic uppercase text-white mb-2 group-hover:text-yellow-500 transition-colors">VIP<br>Experience</h3><div class="flex items-baseline gap-1 mb-8"><span class="text-5xl font-heavy text-white">80</span><span class="text-2xl font-bold text-yellow-500">€</span></div></div>
+                        <button class="mt-auto w-full border border-white/20 py-4 font-heavy italic uppercase text-sm hover:bg-yellow-500 hover:text-black hover:border-yellow-500 transition-colors">Añadir</button>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h2 class="text-2xl font-heavy italic uppercase text-gray-500 mb-8 flex items-center gap-4"><span class="w-8 h-[2px] bg-red-600"></span> Official Merch</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="group bg-zinc-900 border border-white/5 hover:border-white transition-colors cursor-pointer">
+                        <div class="h-64 overflow-hidden relative bg-black flex items-center justify-center"><img src="https://images.unsplash.com/photo-1599659021974-9b244dbdb77a?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100"></div>
+                        <div class="p-6"><h3 class="text-lg font-bold italic uppercase text-white leading-none mb-2">Lanyard Key Tag</h3><span class="text-lg font-heavy text-red-500">5€</span></div>
+                    </div>
+                    <div class="group bg-zinc-900 border border-white/5 hover:border-white transition-colors cursor-pointer">
+                        <div class="h-64 overflow-hidden relative bg-zinc-800 flex items-center justify-center p-8"><div class="w-full h-24 border-4 border-black bg-white rounded-md flex items-center justify-center shadow-xl transform group-hover:scale-105 transition-transform duration-300"><span class="font-heavy text-black text-3xl tracking-widest italic">TURBO</span></div></div>
+                        <div class="p-6"><h3 class="text-lg font-bold italic uppercase text-white leading-none mb-2">Show Plate</h3><span class="text-lg font-heavy text-red-500">12€</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 5. MEDIA VIEW -->
+    <main id="media-view" class="view-section hidden pt-24 min-h-screen bg-zinc-950">
+        <div class="relative w-full h-[40vh] overflow-hidden mb-16">
+            <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-black/60 z-10"></div>
+            <img src="m4.jpg">
+            <div class="absolute bottom-0 left-0 w-full p-8 md:p-16 z-20">
+                <div class="max-w-7xl mx-auto"><h1 class="text-6xl md:text-8xl font-heavy italic uppercase text-white reveal delay-100">Media <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-white">Hub</span></h1></div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 pb-24">
+            <div class="mb-12 flex flex-col md:flex-row md:items-center justify-between gap-6 reveal">
+                <h2 class="text-3xl font-heavy italic uppercase text-white">Photo <span class="text-gray-500">Gallery</span></h2>
+                <div class="flex flex-wrap gap-2">
+                    <button class="filter-btn active" onclick="filterGallery('all', this)">All</button>
+                    <button class="filter-btn" onclick="filterGallery('stance', this)">Stance</button>
+                    <button class="filter-btn" onclick="filterGallery('track', this)">Track</button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[300px]" id="gallery-grid">
+                <div class="md:col-span-2 md:row-span-2 group relative overflow-hidden bg-zinc-900 border border-white/5 gallery-item" data-category="stance">
+                    <img src="gti_azul.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
+                </div>
+                <div class="group relative overflow-hidden bg-zinc-900 border border-white/5 gallery-item" data-category="track">
+                    <img src="m4.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-black pt-24 pb-12 border-t border-zinc-900 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-20">
+                <div class="lg:col-span-4 space-y-8">
+                    <img src="LOGO_SOMBRA_ILU_PEQIEÑO.png" class="h-8 opacity-80 filter invert">
+                    <p class="text-gray-500 font-medium text-sm leading-relaxed max-w-sm">La experiencia definitiva de motor en el centro de España. Unimos pasión, estilo y adrenalina en eventos únicos.</p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-12 h-12 bg-zinc-900 border border-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:border-red-600 hover:bg-red-600/10 transition-all rounded-sm group"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                    </div>
+                </div>
+                <div class="lg:col-span-2">
+                    <h4 class="font-heavy text-white uppercase text-sm mb-8 tracking-widest border-l-2 border-red-600 pl-3">Menu</h4>
+                    <ul class="space-y-4">
+                        <li><a href="#" onclick="switchView('home')" class="text-gray-500 hover:text-white uppercase font-bold text-xs tracking-wider transition-colors">Inicio</a></li>
+                        <li><a href="#" onclick="switchView('evento')" class="text-gray-500 hover:text-white uppercase font-bold text-xs tracking-wider transition-colors">Eventos</a></li>
+                    </ul>
+                </div>
+                <div class="lg:col-span-4">
+                    <h4 class="font-heavy text-white uppercase text-sm mb-6 tracking-widest">Join the Crew</h4>
+                    <div class="flex"><input type="email" placeholder="TU EMAIL" class="bg-zinc-900 border border-white/10 text-white px-4 py-3 w-full text-xs font-bold uppercase focus:border-red-600 outline-none"><button class="bg-red-600 text-white px-6 py-3 font-heavy italic uppercase text-xs hover:bg-white hover:text-black">Ok</button></div>
+                </div>
+            </div>
+            <div class="border-t border-white/5 pt-10 flex flex-col md:flex-row justify-between items-center gap-8">
+                <p class="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">&copy; 2026 Turbo Sessions Events S.L.</p>
+                <div class="flex gap-8 opacity-40 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+                    <span class="font-heavy italic text-xl text-white tracking-tighter cursor-default">LESSER</span>
+                    <span class="font-heavy italic text-xl text-white tracking-tighter cursor-default">BBB</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        function switchView(viewName) {
+            document.querySelectorAll('main').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('main').forEach(el => el.classList.remove('block'));
+            const target = document.getElementById(viewName + '-view');
+            target.classList.remove('hidden');
+            target.classList.add('block');
+            target.querySelectorAll('.reveal, .animate-enter').forEach(el => {
+                el.style.animation = 'none';
+                el.offsetHeight; 
+                el.style.animation = null; 
+            });
+            window.scrollTo(0,0);
+        }
+
+        function filterGallery(category, btnElement) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+            const items = document.querySelectorAll('.gallery-item');
+            items.forEach(item => {
+                const categories = item.getAttribute('data-category');
+                if (category === 'all' || categories.includes(category)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // -- LOGICA DEL CONTADOR DINAMICO --
+        const calculateNextEventDate = () => {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            // Mes 5 = Junio (Enero es 0)
+            let eventDate = new Date(currentYear, 5, 20, 10, 0, 0); 
+            
+            // Si la fecha ya pasó este año, contar hasta el siguiente año
+            if (now > eventDate) {
+                eventDate = new Date(currentYear + 1, 5, 20, 10, 0, 0);
+            }
+            return eventDate.getTime();
+        };
+
+        const eventTime = calculateNextEventDate();
+
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = eventTime - now;
+            
+            if (distance > 0) {
+                document.getElementById('days').innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+                document.getElementById('hours').innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById('mins').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById('secs').innerText = Math.floor((distance % (1000 * 60)) / 1000);
+            } else {
+               // Opcional: Mostrar "00" o mensaje de evento en curso
+               document.getElementById('days').innerText = "00";
+               document.getElementById('hours').innerText = "00";
+               document.getElementById('mins').innerText = "00";
+               document.getElementById('secs').innerText = "00";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
